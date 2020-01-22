@@ -9,13 +9,9 @@ width = 1300
 # select the number of meshes in both directions
 xn=100
 yn=50
-#Choose initial and final cell locations
-st=[1,3]
-end=[49,39]
 
-
-'''Right mouse click to define nodes and left click drag to define barriers. After that, click on find and then 
-																				show to get the results visullay   '''
+'''Right mouse click to define nodes and left click drag to define barriers. 
+After that, click on find and then show to get the results visullay   '''
 
 count=0
 height=(height//yn)*yn
