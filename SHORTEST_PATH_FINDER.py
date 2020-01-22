@@ -2,6 +2,7 @@ from tkinter import *
 import numpy as np
 root = Tk()
 
+
 # select the size of mesh
 height = 600
 width = 1300
@@ -12,7 +13,10 @@ yn=50
 st=[1,3]
 end=[49,39]
 
-#Leave the rest to us
+
+'''Right mouse click to define nodes and left click drag to define barriers. After that, click on find and then 
+																				show to get the results visullay   '''
+
 count=0
 height=(height//yn)*yn
 width=(width//xn)*xn
@@ -24,6 +28,7 @@ map=np.zeros([yn,xn],dtype=np.int8)
 
 C = Canvas(root, bg="white", height=height, width=width)
 C.pack()
+
 for i in range (1,yn):
 	C.create_line(0, y_cell*i, width, y_cell*i)
 for i in range (1,xn):
@@ -108,5 +113,5 @@ B2 = Button(root, text ="Show", relief=RAISED, command = lambda : retract(mem,en
 B1.pack()
 B2.pack()
 C.bind('<B1-Motion>', create_barrier)
-C.bind('<Button-3>', lambda  event : define_nodes(event))
+C.bind('<Button-3>', define_nodes)
 root.mainloop()
