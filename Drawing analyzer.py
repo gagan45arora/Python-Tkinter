@@ -1,10 +1,6 @@
 from tkinter import *
 import numpy as np
-import sys
-np.set_printoptions(threshold=np.inf)
 root = Tk()
-stdoutOrigin=sys.stdout 
-sys.stdout = open("shapesss.txt", "w")
 height=500
 width=600
 size=100
@@ -39,7 +35,6 @@ def Save(map,info):
 				map[i,j]=0
 		shape[count]=entry.get()
 		count+=1
-	print(info[count-1])
 def pencil(event):
 	pos=[event.y//y_cell,event.x//x_cell]
 	map[pos[0],pos[1]]=1
