@@ -1,9 +1,10 @@
 from tkinter import *
 import numpy as np
-import random
-
+import sys
+np.set_printoptions(threshold=np.inf)
 root = Tk()
-
+stdoutOrigin=sys.stdout 
+sys.stdout = open("shapesss.txt", "w")
 height=500
 width=600
 size=100
@@ -38,7 +39,7 @@ def Save(map,info):
 				map[i,j]=0
 		shape[count]=entry.get()
 		count+=1
-
+	print(info[count-1])
 def pencil(event):
 	pos=[event.y//y_cell,event.x//x_cell]
 	map[pos[0],pos[1]]=1
@@ -152,6 +153,10 @@ def Check(map,info):
 			for k in range (0,col_factor):
 				mappa[i,ct]=map[i,j]
 				ct+=1
+			if col_rem!=0:
+				col_rem-=1
+				mappa[i,ct]=map[i,j]
+				ct+=1
 		while ct!=size:
 			mappa[ct]=0
 			ct+=1
@@ -160,6 +165,10 @@ def Check(map,info):
 		for j in range (row1,row2+1):
 			for k in range (0,row_factor):
 				mappan[ct,i]=mappa[j,i]
+				ct+=1
+			if row_rem!=0:
+				row_rem-=1
+				mappa[ct,i]=map[j,i]
 				ct+=1
 		while ct!=size:
 			mappan[ct,i]=0
@@ -176,12 +185,13 @@ def Check(map,info):
 			sh=i
 	#4 shapes are admissible only
 	print("The shape you've drawn is",shape[sh])
-
+	Clear(map)
 def Clear(map):
 	for i in range (0,size):
 		for j in range (0,size):
-			C.create_rectangle(i*x_cell, j*y_cell, (i+1)*x_cell, (j+1)*y_cell, fill="white")
-			map[i,j]=0
+			if map[j,i]==1:
+				C.create_rectangle(i*x_cell, j*y_cell, (i+1)*x_cell, (j+1)*y_cell, fill="white")
+				map[j,i]=0
 
 B1 = Button(F, text ="Check", relief=RAISED, command = lambda : Check(map,info))
 B1.place(relx=0.45,rely=0)
