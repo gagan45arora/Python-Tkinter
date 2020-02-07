@@ -10,8 +10,6 @@ width = 1300
 xn=100
 yn=50
 
-'''Right mouse click to define nodes and left click drag to define barriers. 
-After that, click on find and then show to get the results visullay   '''
 
 count=0
 height=(height//yn)*yn
@@ -48,7 +46,7 @@ def define_nodes(event):
 		coy=st[0]*y_cell
 		mem[st[0],st[1]]=0
 		C.create_rectangle(cox, coy, cox+x_cell, coy+y_cell, fill="#fb0")
-	else:
+	elif count==1:
 		end=[event.y//y_cell,event.x//x_cell]
 		count+=1
 		cox=end[1]*x_cell 
@@ -89,6 +87,7 @@ def retract(mem,pos0,pos1):
 		label = Label(root, text ="Cannot be reached", bg = 'yellow')
 		label.place(relx=0.3 , rely=0, relwidth=0.45, relheight=0.25)
 	elif mem[pos0,pos1]==0:
+		C.create_rectangle((pos1)*x_cell, (pos0)*y_cell, (pos1+1)*x_cell, (pos0+1)*y_cell, fill='yellow')
 		return mem
 	else:
 		if pos0<yn-1 and mem[pos0,pos1]-mem[pos0+1,pos1]==1:
@@ -111,3 +110,5 @@ B2.pack()
 C.bind('<B1-Motion>', create_barrier)
 C.bind('<Button-3>', define_nodes)
 root.mainloop()
+'''Right mouse click to define nodes and left click drag to define barriers. 
+After that, click on find and then show to get the results visullay   '''
