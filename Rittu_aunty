@@ -8,8 +8,6 @@ root = Tk()
 
 #global variables for readability
 end=False
-# global clock
-# clock=True
 steps=0
 
 count=0
@@ -46,7 +44,6 @@ def create_barrier(event):
 
 def define_node(event):
 	global count
-	global steps
 	global row 
 	global col
 	global st
@@ -71,35 +68,7 @@ def direction(mem,map,xydir):
 				return 1
 		if row==0 or map[row-1][col]==-1 or mem[row-1][col]!=-2:
 			if map[row][col-1]==-1 or mem[row][col-1]!=-2:
-				looper=0
-				while True:
-					looper+=1
-					if looper>100:
-						end=True
-						return 0
-					if mem[row+1][col]==-2 and map[row+1][col]==0:
-						return -2
-					if mem[row-1][col]==-2 and map[row-1][col]==0:
-						return 2
-					if mem[row][col-1]==-2 and map[row][col-1]==0:
-						return -1
-					if mem[row][col+1]==-2 and map[row][col+1]==0:
-						return 1
-					if mem[row][col]-mem[row+1][col]==1:
-						row+=1
-						steps+=1
-					elif mem[row][col]-mem[row-1][col]==1:
-						row-=1
-						steps+=1
-					elif mem[row][col]-mem[row][col+1]==1:
-						col+=1
-						steps+=1
-					elif mem[row][col]-mem[row][col-1]==1:
-						col-=1
-						steps+=1
-					else:
-						end=True
-						return 0
+				return retract(mem,map)
 			else:
 				return -1
 	elif xydir==-2:
@@ -108,35 +77,7 @@ def direction(mem,map,xydir):
 				return -1
 		if row==yn-1 or map[row+1][col]==-1 or mem[row+1][col]!=-2:
 			if map[row][col+1]==-1 or mem[row][col+1]!=-2:
-				looper=0
-				while True:
-					looper+=1
-					if looper>100:
-						end=True
-						return 0
-					if mem[row+1][col]==-2 and map[row+1][col]==0:
-						return -2
-					if mem[row-1][col]==-2 and map[row-1][col]==0:
-						return 2
-					if mem[row][col-1]==-2 and map[row][col-1]==0:
-						return -1
-					if mem[row][col+1]==-2 and map[row][col+1]==0:
-						return 1
-					if mem[row][col]-mem[row+1][col]==1:
-						row+=1
-						stesp+=1
-					elif mem[row][col]-mem[row-1][col]==1:
-						row-=1
-						steps+=1
-					elif mem[row][col]-mem[row][col+1]==1:
-						col+=1
-						steps+=1
-					elif mem[row][col]-mem[row][col-1]==1:
-						col-=1
-						steps+=1
-					else:
-						end=True
-						return 0
+				return retract(mem,map)
 			else:
 				return 1
 	elif xydir==1:
@@ -145,35 +86,7 @@ def direction(mem,map,xydir):
 				return -2
 		if col==xn-1 or map[row][col+1]==-1 or mem[row][col+1]!=-2:
 			if map[row-1][col]==-1 or mem[row-1][col]!=-2:
-				looper=0
-				while True:
-					looper+=1
-					if looper>100:
-						end=True
-						return 0
-					if mem[row+1][col]==-2 and map[row+1][col]==0:
-						return -2
-					if mem[row-1][col]==-2 and map[row-1][col]==0:
-						return 2
-					if mem[row][col-1]==-2 and map[row][col-1]==0:
-						return -1
-					if mem[row][col+1]==-2 and map[row][col+1]==0:
-						return 1
-					if mem[row][col]-mem[row+1][col]==1:
-						row+=1
-						steps+=1
-					elif mem[row][col]-mem[row-1][col]==1:
-						row-=1
-						steps+=1
-					elif mem[row][col]-mem[row][col+1]==1:
-						col+=1
-						steps+=1
-					elif mem[row][col]-mem[row][col-1]==1:
-						col-=1
-						steps+=1
-					else:
-						end=True
-						return 0
+				return retract(mem,map)
 			else:
 				return 2
 	elif xydir==-1:
@@ -182,38 +95,45 @@ def direction(mem,map,xydir):
 				return 2
 		if col==0 or map[row][col-1]==-1 or mem[row][col-1]!=-2:
 			if map[row+1][col]==-1 or mem[row+1][col]!=-2:
-				looper=0
-				while True:
-					looper+=1
-					if looper>100:
-						end=True
-						return 0
-					if mem[row+1][col]==-2 and map[row+1][col]==0:
-						return -2
-					if mem[row-1][col]==-2 and map[row-1][col]==0:
-						return 2
-					if mem[row][col-1]==-2 and map[row][col-1]==0:
-						return -1
-					if mem[row][col+1]==-2 and map[row][col+1]==0:
-						return 1
-					if mem[row][col]-mem[row+1][col]==1:
-						row+=1
-						steps+=1
-					elif mem[row][col]-mem[row-1][col]==1:
-						row-=1
-						steps+=1
-					elif mem[row][col]-mem[row][col+1]==1:
-						col+=1
-						steps+=1
-					elif mem[row][col]-mem[row][col-1]==1:
-						col-=1
-						steps+=1
-					else:
-						end=True
-						return 0
+				return retract(mem,map)
 			else:
 				return -2
 	return xydir
+
+def retract(mem,map):
+	global row
+	global col
+	global steps
+	global end
+	looper=0
+	while True:
+		looper+=1
+		if looper>100:
+			end=True
+			return 0
+		if mem[row+1][col]==-2 and map[row+1][col]==0:
+			return -2
+		if mem[row-1][col]==-2 and map[row-1][col]==0:
+			return 2
+		if mem[row][col-1]==-2 and map[row][col-1]==0:
+			return -1
+		if mem[row][col+1]==-2 and map[row][col+1]==0:
+			return 1
+		if mem[row][col]-mem[row+1][col]==1:
+			row+=1
+			steps+=1
+		elif mem[row][col]-mem[row-1][col]==1:
+			row-=1
+			steps+=1
+		elif mem[row][col]-mem[row][col+1]==1:
+			col+=1
+			steps+=1
+		elif mem[row][col]-mem[row][col-1]==1:
+			col-=1
+			steps+=1
+		else:
+			end=True
+			return 0
 
 def sweep(map,mem,xydir):
 	global row 
@@ -229,25 +149,25 @@ def sweep(map,mem,xydir):
 		mem[row][col]=steps
 		C.create_rectangle(col*x_cell, row*y_cell, (col+1)*x_cell, (row+1)*y_cell, fill="blue")
 		t = C.create_text(col*x_cell+x_cell/2, row*y_cell+y_cell/2, text=steps)
-		root.after(300, lambda : sweep(map,mem,xydir))
+		root.after(30, lambda : sweep(map,mem,xydir))
 	elif xydir==-1:
 		col-=1
 		mem[row][col]=steps
 		C.create_rectangle(col*x_cell, row*y_cell, (col+1)*x_cell, (row+1)*y_cell, fill="blue")
 		t = C.create_text(col*x_cell+x_cell/2, row*y_cell+y_cell/2, text=steps)
-		root.after(300, lambda : sweep(map,mem,xydir))
+		root.after(30, lambda : sweep(map,mem,xydir))
 	elif xydir==2:
 		row-=1
 		mem[row][col]=steps
 		C.create_rectangle(col*x_cell, row*y_cell, (col+1)*x_cell, (row+1)*y_cell, fill="blue")
 		t = C.create_text(col*x_cell+x_cell/2, row*y_cell+y_cell/2, text=steps)
-		root.after(300, lambda : sweep(map,mem,xydir))
+		root.after(30, lambda : sweep(map,mem,xydir))
 	elif xydir==-2:
 		row+=1
 		mem[row][col]=steps
 		C.create_rectangle(col*x_cell, row*y_cell, (col+1)*x_cell, (row+1)*y_cell, fill="blue")
 		t = C.create_text(col*x_cell+x_cell/2, row*y_cell+y_cell/2, text=steps)
-		root.after(300, lambda : sweep(map,mem,xydir))
+		root.after(30, lambda : sweep(map,mem,xydir))
 
 B1 = Button(root, text ="Scrub", relief=RAISED, command = lambda : sweep(map,mem,-1))
 B1.pack()
